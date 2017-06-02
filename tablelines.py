@@ -92,56 +92,38 @@ def px_rows(x, y):
 	return [group for group in groups if len(group) > line_weight] 
 
 
-def v_lines(groups):
-	"""Form vertical lines from the lists of grouped pixels."""
+def lines(groups, nav):
+	"""Form lines from the lists of grouped pixels.
+	nav can be 'v' or 'h' depending on whether groups
+	is a collection of pixel reference for vertical lines
+	or horizontal lines."""
 	lines = []
 	for group in groups:
-		y_vals = group[1:]
+		vals = group[1:]
 		
 		# Ignore groups which are not clustered together
 		# to form lines longer than the width of a table-line.
-		if len(y_vals) > line_weight:  
+		if len(vals) > line_weight:  
 			
-			start = y_vals[0]
+			start = vals[0]
 			# If there is a discontinuity in the group, 
 			# store the last position of the group:
-			last_y = None
-			for y in y_vals:
-				if last_y and y - last_y > 5:
-					start = y
-				last_y = y
-			finish = y_vals[-1]
-			# store lines in the form: ( x1, (y1, y2) )
-			lines.append( (group[0], (start, finish) ) )
+			last = None
+			for i in vals:
+				if last and i - last > 2*line_weight:
+					start = i
+				last = i
+			finish = vals[-1]
 			
-	return lines
-
-
-def h_lines(groups):
-	"""Form horizontal lines from the lists of grouped pixels."""
-	
-	lines = []
-	for group in groups: # group is a list e.g. [x, y1, y2, y3, y4...]
-		
-		x_vals = group[1:]
-		
-		if len(set(x_vals)) > line_weight:
-			# lineate continuous part(s) of the line.
-			
-			start = x_vals[0]
-			
-			# if pixels are not continuous in the y-direction, 
-			# take the last continuous line.
-			last_x = None
-			for j in x_vals:
-				if last_x and j - last_x > 5:
-					start = j
-				last_x = j
-				
-			finish = x_vals[-1]
-	
-			# store ( (x1, x2), y )
-			lines.append( ( (start, finish), group[0] ) )	
+			# TODO: Use Try-except for errors.
+			if nav == 'v':
+				# store lines in the form: ( x1, (y1, y2) )
+				lines.append( (group[0], (start, finish) ) )
+			elif nav == 'h':
+				# store ( (x1, x2), y )
+				lines.append( ( (start, finish), group[0] ) )	
+			else:
+				print 'Error: Invalid Argument'
 			
 	return lines
 
@@ -270,9 +252,9 @@ if __name__=="__main__":
 	
 	# Maybe break these nested function calls down.
 	# Vertical lines have the form (x, (y1, y2))
-	v_lines = filter_lines( v_lines( px_cols( x_range, y_range ) ) )
+	v_lines = filter_lines( lines( px_cols( x_range, y_range ), 'v' ) )
 	# Horizontal lines have the form ((x1, x2), y)
-	h_lines = filter_lines( h_lines( px_rows( x_range, y_range ) ) )
+	h_lines = filter_lines( lines( px_rows( x_range, y_range ), 'h' ) )
 	
 	# The lines are flattened e.g. (x, y1, y2)
 	v_flatlines = [[y for x in j for y in 
