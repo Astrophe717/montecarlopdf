@@ -23,13 +23,13 @@ So you know exactly where all the text is on your pdf but not where the
 table-lines are or if there are two sets of column headers at the top of the 
 table like this:
 _______________________________________________________________________
-|    Heading 1       |         Heading 2           |    Heading 3     |
+|    Contact         |         Operations          |    Heading       |
 |____________________|_____________________________|__________________|  
-|  sub 1  |  sub 2   |  sub 3 | etc.    |          |                  |
+|  Name   |  Address |Licences| start   |  end     |   sub-heading    |
 |_________|__________|________|_________|__________|__________________|
-|  cell 1 |  cell 2  |        |         |          |                  |
-|         |          |        |         |          |                  |
-|         |          |        |         |          |                  |
+| D Mann  |123 The Rd|accounts|1/1/2000 |Jun 1 2018|       Cell       |
+|         |Boulevard |consult |07/07/07 |--/--/----|Note: date unknown|
+|         |90210     |products|5/4/2003 |5th May 22|                  |
 |         |          |        |         |          |                  |
 |         |          |        |         |          |                  |
 |         |          |        |         |          |                  |
