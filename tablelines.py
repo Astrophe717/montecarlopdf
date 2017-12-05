@@ -18,7 +18,7 @@ from PIL import Image
 from itertools import combinations
 from collections import Counter
 
-# These should be settable.
+# Set im_name to your filename.
 im_name = "pdfs_and_images/004.pdf"
 line_weight = 10
 t = 5 # Tolerance - 
